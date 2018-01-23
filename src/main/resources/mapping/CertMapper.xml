@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmybatis.noweb.mapper.CertMapper">
+
+	
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, rsa, chip_id, root_key, key_id, ecc_crtm, ecc_crtm1, rsa_ca, psk,
+		psk_plain, batch_number, add_date, gen_date, export_date, status,
+		is_rpc
+	</sql>
+	<select id="selectCountAvailableNum" resultType="java.lang.Integer">
+		select count(1) from cert where status=1
+	</select>
+	<select id="selectCountAllNum" resultType="java.lang.Integer">
+		select count(1) from cert where status=1 or status=2 
+	</select>
+	<update id="upToExportedStatus" >
+	update cert set status=2,export_date=now(),batch_number=#{batchNumber} where id in ( select t.id from (select id from cert where status=0 order by id asc limit #{exportNum}) as t)
+	</update>
+</mapper>

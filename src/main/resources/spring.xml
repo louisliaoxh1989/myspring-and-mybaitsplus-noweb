@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.3.xsd
+">
+
+	<!-- 引入dbconfig.properties属性文件,属性文件在jar内部方式-->
+	<!-- <context:property-placeholder location="classpath:db.properties" /> -->
+	
+	
+	<!-- 引入外部dbconfig.properties属性文件(文件关键字段没有加密方式) -->
+<!-- 	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="location">
+			<value>file://${CONFIG_PATH}</value>
+		</property>
+	</bean> -->
+	
+	<!-- 引入外部dbconfig.properties属性文件(文件关键字段有加密方式) -->
+		<bean id="propertyConfigurer"
+		class="com.springmybatis.noweb.EncryptPropertyPlaceholderConfigurer">
+
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="location">
+			<value>file://${CONFIG_PATH}</value>
+		</property>
+	</bean>
+	<import resource="classpath:spring-mybatis.xml" />
+</beans>
